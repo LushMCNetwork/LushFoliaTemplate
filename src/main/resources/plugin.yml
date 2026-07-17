@@ -1,0 +1,8 @@
+name: LushFoliaTemplate
+version: ${project.version}
+main: com.playgamesinteractive.template.TemplatePlugin
+api-version: '1.21'
+folia-supported: true
+authors: [PlayGamesInteractive]
+description: Starting point for a new LushMC Folia plugin
+website: https://playgamesinteractive.com

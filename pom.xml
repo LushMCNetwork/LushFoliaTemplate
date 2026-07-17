@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.playgamesinteractive</groupId>
+    <artifactId>LushFoliaTemplate</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>LushFoliaTemplate</name>
+    <description>Starting point for a new LushMC Folia plugin - fork/copy this repo rather than starting from scratch.</description>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <folia.version>1.21.11-R0.1-SNAPSHOT</folia.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>dev.folia</groupId>
+            <artifactId>folia-api</artifactId>
+            <version>${folia.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.name}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>21</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <!-- If you add a dependency that bundles a native library (sqlite-jdbc,
+                                 snappy, leveldbjni, etc) and shade it into the jar, do NOT add a
+                                 <relocation> for its package. Relocating the Java package doesn't
+                                 (and can't) rename the JNI symbol names baked into the .so/.dll at
+                                 compile time, so the native library fails to load with an
+                                 UnsatisfiedLinkError on the relocated class name. Each plugin already
+                                 runs in its own classloader on Bukkit/Paper/Folia, so there's no real
+                                 collision risk from leaving native-backed dependencies unrelocated. -->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+</project>

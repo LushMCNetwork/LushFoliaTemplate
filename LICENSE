@@ -1,0 +1,136 @@
+# LushSeries Software License
+
+**Copyright (c) 2026 Play Games Interactive. All Rights Reserved.**
+
+This License governs the use of all software contained in or distributed as part
+of the "LushSeries" — including but not limited to LushRaft, LushChat, LushVaults,
+LushRelay, LushLobby, LushVanish, LushLag, LushKills, LushCoinflip, and
+LushCelebrate — together with their source code, compiled artifacts (`.jar` files),
+configuration schemas, documentation, and any associated assets (collectively, the
+"Software").
+
+The Software is proprietary and confidential. It is licensed, not sold. No rights
+are granted except those expressly stated below.
+
+## 1. Definitions
+
+- **"Licensor"** means Play Games Interactive ("PGI"), the sole owner of the
+  Software.
+- **"LushMC Network"** means the Minecraft server network operated by PGI under
+  the LushMC brand, including all game servers, proxies, and infrastructure PGI
+  directly owns and controls under that brand.
+- **"Authorized Environment"** means production and development infrastructure
+  that is owned, operated, and controlled by PGI for the sole purpose of running
+  the LushMC Network.
+- **"You"** means any individual or entity that gains access to the Software,
+  regardless of how that access was obtained.
+
+## 2. Grant of License
+
+Subject to Section 3, PGI grants a limited, non-exclusive, non-transferable,
+non-sublicensable, revocable license to deploy and run the Software solely:
+
+a. within the Authorized Environment; and
+b. solely in connection with the operation of the LushMC Network.
+
+No license is granted for use on any other Minecraft server, network, brand,
+project, or entity, whether or not affiliated with PGI, and whether or not
+operated by current or former PGI personnel, contractors, or partners.
+
+## 3. Restrictions
+
+Except as expressly permitted in Section 2, You may NOT, under any circumstance:
+
+a. **Use** the Software, in whole or in part, on any server or network other
+   than the LushMC Network;
+b. **Copy, reproduce, mirror, or archive** the Software outside of PGI-controlled
+   infrastructure and version control;
+c. **Distribute, publish, sell, lease, rent, sublicense, or otherwise transfer**
+   the Software, or any portion of it (including individual classes, modules,
+   configuration files, or assets), to any third party;
+d. **Modify, adapt, translate, or create derivative works** based on the
+   Software for use outside the Authorized Environment;
+e. **Decompile, disassemble, reverse-engineer, or otherwise attempt to derive**
+   the source code of any compiled artifact, except to the extent such
+   restriction is prohibited by applicable law;
+f. **Remove, obscure, or alter** any copyright, trademark, proprietary, or
+   attribution notice contained in the Software;
+g. **Represent** that You have any ownership interest in, or independent right
+   to license, the Software or the LushSeries name and branding; or
+h. **Use the Software, or knowledge derived from it, to build, operate, or assist
+   a competing Minecraft network or gamemode**, whether commercial or
+   non-commercial.
+
+These restrictions apply regardless of whether the Software is obtained directly
+from PGI, from a private repository, from a former team member, or from any other
+source, and regardless of whether such access was authorized.
+
+## 4. Ownership
+
+The Software is and remains the exclusive property of PGI. This License does not
+transfer any ownership, title, or intellectual property rights in the Software.
+All rights not expressly granted in Section 2 are reserved by PGI.
+
+Any contributions, modifications, patches, or derivative code submitted to or
+incorporated into the Software by contractors, employees, or contributors become
+the exclusive property of PGI upon creation, as a work made for hire (or, where
+work-for-hire status does not apply by operation of law, are hereby irrevocably
+assigned to PGI).
+
+## 5. Confidentiality
+
+The Software's source code is confidential information of PGI. You agree to use
+the same degree of care to protect it that You use for Your own confidential
+information of like importance, and in no event less than reasonable care.
+
+## 6. Termination
+
+This License terminates automatically and immediately, without notice, if You
+breach any provision of Section 3. Upon termination, You must immediately cease
+all use of the Software and destroy or delete all copies in Your possession or
+control. Sections 4, 5, 6, 7, and 8 survive termination.
+
+PGI may also terminate this License at any time, for any reason or no reason,
+upon notice to You.
+
+## 7. No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. PGI DOES NOT WARRANT THAT THE
+SOFTWARE WILL BE ERROR-FREE OR UNINTERRUPTED.
+
+## 8. Limitation of Liability
+
+IN NO EVENT SHALL PGI BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL,
+CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, REVENUE, DATA, OR
+BUSINESS OPPORTUNITY, ARISING OUT OF OR RELATED TO THE SOFTWARE OR THIS LICENSE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+## 9. Enforcement
+
+Unauthorized use, copying, or distribution of the Software constitutes a material
+breach of this License and may also constitute copyright infringement and/or
+misappropriation of trade secrets under applicable law. PGI reserves the right to
+pursue all available legal and equitable remedies, including injunctive relief,
+against any party that violates this License, without the need to prove monetary
+damages as a precondition to seeking an injunction.
+
+## 10. Governing Law
+
+This License is governed by the laws of the State of New York, without regard to
+its conflict-of-laws principles. Any dispute arising under this License shall be
+brought exclusively in the state or federal courts located in New York County,
+New York, and You consent to the personal jurisdiction of those courts.
+
+## 11. Entire Agreement
+
+This License constitutes the entire agreement between You and PGI regarding the
+Software and supersedes any prior agreements or understandings, whether written
+or oral, regarding its subject matter. If any provision of this License is held
+unenforceable, the remaining provisions remain in full force and effect.
+
+---
+
+*For licensing inquiries outside the scope of this License, contact Play Games
+Interactive directly.*

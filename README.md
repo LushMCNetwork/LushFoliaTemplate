@@ -1,62 +1,75 @@
-# LushFoliaTemplate
+# LushFoliaTemplate 2
 
-Starting point for a new LushMC plugin. Fork or copy this repo instead of setting
-up `pom.xml`/`plugin.yml` from scratch.
+A working starter for new LushMC **Folia** plugins, targeting **Java 21** and **Folia API 1.21.11**. It replaces the original empty entry point with MiniMessage presentation, safe scheduler dispatch, commands, protected configurable menus, immutable settings, language fallback, reload validation and automated tests.
 
-## Getting started
+This template requires **LushMenus 1.0.0** at runtime, using the same managed-inventory integration as LushRaft-v2. It has no economy, database or licensing dependency. Adventure and MiniMessage come from the server API and are not shaded into the plugin. There is no legacy color translator, legacy Bukkit scheduler, string-based item presentation or compatibility migration layer.
 
-1. Rename the repo, `<artifactId>`/`<name>` in `pom.xml`, and `name`/`main` in
-   `plugin.yml`.
-2. Rename the `com.playgamesinteractive.template` package (and `TemplatePlugin`)
-   to match your plugin.
-3. `mvn package` - the shaded jar lands in `target/`.
+## Copy and rename
 
-## Folia safety rules
+1. Copy this directory without `target/` or an existing `.git/` directory.
+2. Change the artifact/name/description in `pom.xml` and identity in `plugin.yml`.
+3. Rename `com.playgamesinteractive.template`, `TemplatePlugin`, the `/template` command and `lushtemplate.*` permission nodes. Update references in Java, tests, YAML, docs and the required `template_menu` ID if renaming it.
+4. Replace `starter/StarterListener` and `command/TemplateCommand` with your feature. Keep lifecycle setup, reload publication and shutdown in the main plugin.
+5. Run `mvn clean verify`; install the resulting JAR on a staging Folia server.
 
-Folia runs each loaded region of the world on its own thread instead of one
-global tick loop. These are the rules that keep a plugin from crashing or
-corrupting state under that model - learned the hard way migrating LushRaft.
+Build/install LushMenus into your Maven repository before building a fresh copy of the template:
 
-- **No `BukkitRunnable` / `Bukkit.getScheduler()`.** Use one of Folia's three
-  scheduler categories instead:
-  - `Bukkit.getGlobalRegionScheduler()` - pure bookkeeping only (config
-    reload, DB loads, console commands). **Never touch a block or entity from
-    here** - it isn't pinned to any region.
-  - `Bukkit.getRegionScheduler().run(plugin, location, task -> ...)` -
-    location-pinned work (block edits, area scans) at a *known* coordinate.
-  - `entity.getScheduler().run(plugin, task -> ...)` - anything bound to an
-    already-spawned entity (AI ticks, per-player timers). Prefer this
-    whenever you already hold a live entity reference; it auto-cancels if the
-    entity dies.
-- **Never call `Bukkit.getEntity(uuid)` (or `World#getEntities()`) from an
-  arbitrary thread**, including `Bukkit.getAsyncScheduler()` timers directly.
-  It's a real chunk-lookup and throws `AsyncCatcher`/`IllegalStateException`
-  off a region thread. If you only have a UUID and a rough location (e.g. "the
-  mob belongs to this island"), resolve it via
-  `Bukkit.getRegionScheduler().run(...)` pinned to that location and
-  `world.getNearbyEntities(...)`, not a blind global lookup.
-- **`Bukkit.getPlayer(uuid)` and `Bukkit.getOnlinePlayers()` are safe reads
-  from any thread** - they're a simple online-player-list lookup, not a
-  chunk/entity lookup. But once you have the `Player` object, still hop onto
-  `player.getScheduler().run(...)` before touching their inventory, location,
-  or sending messages/sounds - they may be ticking on a different region
-  thread than whatever code resolved them.
-- **Watch cross-entity access.** A method already running on entity/region A's
-  thread (e.g. a per-island tick) must not directly touch entity/region B
-  (e.g. a random online player, or an admin command's target) without its own
-  scheduler hop first. This is the subtlest and easiest class of bug to miss
-  - grep for `Bukkit.getPlayer(` / `Bukkit.getEntity(` inside any tick/handler
-  method and check whether the result is touched directly or re-dispatched.
-- **All Folia scheduler delay/period values must be `>= 1`** - no more
-  `0L` immediate-next-tick pattern.
-- **Shared mutable state needs concurrent-safe collections** (`ConcurrentHashMap`,
-  `CopyOnWriteArrayList`, etc) or `volatile`/synchronized fields - two islands
-  (or a live game action vs. an admin reload) can now genuinely run
-  concurrently instead of being serialized by a single tick thread.
-- **`onEnable`/`onDisable` are safe for direct entity/world access without a
-  scheduler hop** - regions haven't started ticking yet in `onEnable`, and
-  they've already been halted by `onDisable`, so there's no concurrent region
-  activity to race with at either end of the plugin lifecycle.
-- **Don't relocate native-backed dependencies** (sqlite-jdbc, snappy, etc) in
-  the shade plugin - see the comment in `pom.xml`. Relocating the Java package
-  breaks the bundled native library's JNI symbol binding.
+```sh
+mvn -f /path/to/LushMenus/pom.xml clean install
+mvn clean verify
+```
+
+The dependency is `com.playgamesinteractive:LushMenus:1.0.0:api` with `provided` scope. Install the **full** `LushMenus-1.0.0.jar` on the server alongside the template; the `-api.jar` is for compilation. `plugin.yml` declares `depend: [LushMenus]`, so the server loads LushMenus first. Never shade either its API or implementation into a consumer.
+
+The bundled example builds to `target/LushFoliaTemplate-2.0.0.jar`. Maven 3.9+ is recommended. The server must expose Folia's regionized runtime; ordinary Paper is intentionally rejected.
+
+## Included example
+
+- `/template` or `/template menu` opens the starter menu (`lushtemplate.use`, granted by default).
+- `/template echo <text>` demonstrates safe text placeholders. Player-supplied MiniMessage tags remain literal text.
+- `/template reload` validates configuration, language and every menu before publishing replacements (`lushtemplate.admin`, operators by default).
+- An optional join greeting demonstrates player-scheduler dispatch. Enable `starter.welcome-message` in `config.yml`.
+
+Menu/reload accept no extra arguments. Completion hides routes the sender cannot use. Reload runs file reads asynchronously and constructs detached item metadata on the global scheduler. Invalid candidates keep the previous configuration active, and a successful reload closes old menus. Concurrent reload requests receive a busy message.
+
+## Structure
+
+```text
+src/main/java/com/playgamesinteractive/template/
+  TemplatePlugin.java         Lifecycle assembly and reload coordination
+  command/                    Shared router and small starter command
+  config/                     Strict YAML reads, default healing, immutable settings
+  lang/                       Server-wide message catalog and recipient dispatch
+  menu/                       Records, loader, holders, painters and click handling
+  scheduler/                  Folia owner dispatch and tracked shutdown cancellation
+  starter/                    Replaceable example feature listener
+  text/                       MiniMessage components and safe data placeholders
+src/main/resources/
+  config.yml
+  language/en_US.yml
+  menus/template_menu.yml
+  plugin.yml
+src/test/java/                 Presentation, scheduler, routing and config/layout tests
+```
+
+Use four-space indentation, explicit imports, constructor injection and feature packages. Share immutable snapshots across threads; mutable world/entity state remains on its owner scheduler. See [development guidance](docs/DEVELOPMENT.md) and the [staging checklist](docs/STAGING.md).
+
+## Presentation and menus
+
+Use MiniMessage and Adventure `Component`s throughout: `<#00f396>`, `<bold>`, `<underlined>`, `<gray>` and `<white>`. Legacy `&`/section-sign formatting is rejected in configured text. Internal `{token}` placeholders become unparsed MiniMessage values, preventing inserted player text from injecting colors or click events. Items explicitly disable implicit italics.
+
+The example follows LushMC house colors, status symbols, Information lore, underlined click instructions, white glass fill and blue corner clusters. Decoration tooltips are hidden. Clickable items have a real action; the read-only guide uses a Quick Access command instead of a fake click instruction.
+
+As in LushRaft-v2, this plugin retains its domain holders, YAML layouts, painters and actions. Inventories are created through `SharedMenus.createInventory` with the display policy. Listeners register through `SharedMenus.registerEvents`; do not also register them directly with Bukkit, or managed clicks can be delivered twice. The shared service preserves non-menu events, handles session generations, click throttling and prohibited inventory movement, and publishes its menu events. Successful reloads call `SharedMenus.invalidate(this)` after candidate validation. LushMenus handles owner-disable session cleanup.
+
+Menu YAML supports `display_name`, `lore`, `slot`/`slots` (including ranges), permissions, `show_if`, `click_commands`, `open_menu`, item flags and glint override. Generic tags are `[close]`, `[message]`, `[command]`, `[console_command]` and `[open_menu]`; register custom handlers for domain actions. The example adds `[greet]`. Player actions run on the entity scheduler; console commands move to the global scheduler.
+
+`fill` paints unused slots. `corner` uses the fixed clusters `0, 1, 9, size-10, size-2, size-1`. Static/dynamic content may not overlap each other or corners. Dynamic lists use `dynamic_slots.<type>`, a registered `MenuPainter` and `templates.<type>`. Opened child menus remember the previous holder, and Escape returns to it. Both mouse buttons dispatch configured actions; inventory transfers and drags are cancelled.
+
+Startup extracts absent bundled files and adds missing leaf keys without replacing configured values. A first extension write creates a `.bak` backup. Malformed YAML or scalar values where sections are expected are rejected without rewriting the file. Reload never heals or rewrites files. Partial `language/<name>.yml` catalogs fall back to English.
+
+## Build choices
+
+Only `plugin.yml` is Maven-filtered; MiniMessage/config/menu resources remain unchanged. Runtime API dependencies use `provided` scope. The starter does not run Maven Shade when it has nothing to bundle. If your plugin adds runtime libraries, add an explicit shade configuration, exclude signature metadata, preserve service descriptors and **never relocate native-backed packages** such as sqlite-jdbc: their JNI symbols cannot follow Java package relocation.
+
+Automated tests verify component rendering, literal placeholder values, legacy-code rejection, strict configuration loading, translation fallback, healing/backups, immutable snapshots, menu collisions, permission routing, entity retirement and task shutdown. They do not replace live-server Folia and inventory verification.

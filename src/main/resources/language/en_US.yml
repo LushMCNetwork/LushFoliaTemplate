@@ -1,0 +1,16 @@
+command:
+  usage: "<#ff1155>✘ Usage: {usage}"
+  no-permission: "<#ff1155>✘ You do not have permission to use this feature."
+  player-only: "<#ff1155>✘ You must run this command as a player."
+  help: "<#fdf700>✦ Use <white>/template menu<#fdf700> to open the menu or <white>/template echo <text><#fdf700> to try safe text placeholders."
+  echo-usage: "<#ff1155>✘ Enter a message after /template echo."
+  echo: "<#00a4fe>✦ <white>{text}"
+config:
+  busy: "<#fdf700>⌚ A configuration reload is already in progress."
+  reloaded: "<#00f396>✔ Your configuration and menus have been reloaded."
+  invalid: "<#ff1155>✘ The reload failed. Your previous configuration remains active. <gray>{reason}"
+menu:
+  not-configured: "<#ff1155>✘ The {menu} menu is not configured."
+starter:
+  welcome: "<#00f396>✔ Welcome, <white>{player}<#00f396>. Use <white>/template<#00f396> to open the starter menu."
+  greeting: "<#00f396>✔ Hello, <white>{player}<#00f396>. This action ran on your entity scheduler."

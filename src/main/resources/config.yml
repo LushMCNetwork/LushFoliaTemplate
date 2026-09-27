@@ -1,0 +1,5 @@
+# Select language/<name>.yml. Missing entries fall back to English.
+language: en_US
+starter:
+  # Demonstrates safe player messages from a Folia event handler.
+  welcome-message: false

@@ -1,0 +1,60 @@
+permission: lushtemplate.use
+title: "<dark_gray>Template | Menu"
+size: 27
+sound: minecraft:ui.button.click
+
+fill:
+  material: WHITE_STAINED_GLASS_PANE
+  display_name: " "
+  item_flags: []
+  enchantment_glint_override: false
+
+corner:
+  material: LIGHT_BLUE_STAINED_GLASS_PANE
+  display_name: " "
+  item_flags: []
+  enchantment_glint_override: false
+
+items:
+  greeting:
+    material: EMERALD
+    slot: 11
+    display_name: "<bold><#00f396>TRY AN ACTION</bold>"
+    lore:
+      - "<gray>Folia Starter"
+      - ""
+      - "<#fdf700>Information"
+      - "<white>Send yourself a confirmation"
+      - "<white>through the entity scheduler."
+      - ""
+      - "<#00a4fe>✦ <white>Player: <#00a4fe>{player}"
+      - ""
+      - "<#fdf700>▶ <underlined><bold>CLICK</bold></underlined> to Continue"
+    click_commands:
+      - "[greet]"
+  guide:
+    material: BOOK
+    slot: 13
+    display_name: "<bold><#00a4fe>DEVELOPMENT GUIDE</bold>"
+    lore:
+      - "<gray>Plugin Development"
+      - ""
+      - "<#fdf700>Information"
+      - "<white>Edit the templates and register"
+      - "<white>your own feature handlers."
+      - ""
+      - "<#ff7200>⚡ <white>Quick Access: <#ff7200>/template echo hello"
+  close:
+    material: BARRIER
+    slot: 15
+    display_name: "<bold><#ff1155>CLOSE MENU</bold>"
+    lore:
+      - "<gray>Menu Navigation"
+      - ""
+      - "<#fdf700>Information"
+      - "<white>Close this menu and return"
+      - "<white>to your game."
+      - ""
+      - "<#fdf700>▶ <underlined><bold>CLICK</bold></underlined> to Close"
+    click_commands:
+      - "[close]"

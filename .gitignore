@@ -1,5 +1,19 @@
-target/
-.idea/
+/target/
+/.idea/
+/.vscode/
 *.iml
-.vscode/
 .DS_Store
+
+# Local credentials and runtime data
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.log
+*.db
+*.sqlite*
+*.bak
